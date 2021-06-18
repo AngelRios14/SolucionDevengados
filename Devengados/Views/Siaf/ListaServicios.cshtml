@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "ListaServicios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    var xpath= '@Url.Action("CSListaOrdenesServicio", "Siaf")';
+</script>
+
+<script src="~/Content/jsnegocio/OrdenServicio.js">
+
+</script>
+<br />
+<div class="container row p-0 m-0">
+    <div class="col-6">
+        <h2 class="text-info">Lista Servicios</h2>
+    </div>
+    <div class="col-3 offset-3">
+        <a asp-action="Upsert" asp-controller="Books" class="btn btn-info form-control text-white">
+            Agregar Servicio
+        </a>
+    </div>
+    <div class="col-12 border p-3">
+        <table id="dtServicios" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Descripcion</th>
+                    <th>Ubicacion</th>
+                    <th>Cargar</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
