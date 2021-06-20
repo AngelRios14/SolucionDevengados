@@ -30,10 +30,10 @@ function fnListaOrdenesServicio() {
             //DesbloquearBlockUI();
         },
         success: function (response) {
-            alert("Respuesta desde el codigo servidor");
+            //alert("Respuesta desde el codigo servidor");
             debugger;
             var objLista = response.DataServicio;
-            CargarDataTableServicio(objLista.DataServicio);
+            CargarDataTableServicio(objLista);
             //if (objListaCampanias != null) {
             //    if (objListaCampanias.length > 0) {
             //        var nroRegistros = objListaCampanias.length;
@@ -67,7 +67,13 @@ function CargarDataTableServicio(LstServicios) {
             { "data": null, "defaultContent": "", "width": "5%" },
             { "data": null, "defaultContent": "", "width": "5%" },
             { "data": null, "defaultContent": "", "width": "5%" },
-            { "data": null, "defaultContent": "", "width": "5%" }
+            { "data": null, "defaultContent": "", "width": "5%" },
+            //{ "data": null, "defaultContent": "", "width": "5%" },
+            //{ "data": null, "defaultContent": "", "width": "5%" },
+            { "data": null, "defaultContent": "", "width": "5%" },
+            //{ "data": null, "defaultContent": "", "width": "5%" },
+            { "data": null, "defaultContent": "", "width": "5%" },
+            { "data": "Importe", "width": "5%" }
             //            { "data": "AnoEje", "width": "5%" },
             //{ "data": "NroOrden", "width": "5%" },
             //{ "data": "FechaOrden", "width": "5%" },

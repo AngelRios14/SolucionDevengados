@@ -7,7 +7,7 @@ using Oracle.DataAccess.Client;
 
 namespace Devengados
 {
-    public class DAExpediente
+    public class DAExpediente:GeneralBase
     {
         public List<BEExpediente> ListaExpedientes(string Connection, string Command)
         {
@@ -28,11 +28,17 @@ namespace Devengados
                         while (oRea.Read() && oRea.HasRows)
                         {
                             BEExpediente oBe = new BEExpediente();
-                            oBe.IdExpediente = Convert.ToInt32(oRea["INT_EXPE"]);
+                            oBe.IdExpediente = Convert.ToInt32(oRea["ID_EXPEDIENTE"]);
                             oBe.ContratoPrimigenio= Convert.ToString(oRea["CONTRATO_PRIMIGENIO"].ToString());
-                            oBe.MontoContractual= Convert.ToDecimal(oRea["MONTO_CONTRACTUAL"].ToString());
-                            oBe.AreaUsuaria = Convert.ToString(oRea["TXT_EXPEDIENTE"].ToString());
-                            oBe.Expediente = Convert.ToString(oRea["TXT_EXPEDIENTE"].ToString());                            
+                            oBe.MontoContractual = oRea["MONTO_CONTRACTUAL"] == DBNull.Value ? -1 : Convert.ToDecimal(oRea["MONTO_CONTRACTUAL"]);                            
+                            oBe.MontoEjecutado= oRea["MONTO_EJECUTADO"] == DBNull.Value ? -1 :  Convert.ToDecimal(oRea["MONTO_EJECUTADO"]);
+                            oBe.AreaUsuaria = Convert.ToString(oRea["AREA_USUARIA"].ToString());
+                            oBe.Expediente = Convert.ToString(oRea["EXPEDIENTE"].ToString());                            
+                            oBe.Descripcion = Convert.ToString(oRea["DESCRIPCION"].ToString());
+                            oBe.Importe = oRea["IMPORTE"] == DBNull.Value ? -1 : Convert.ToDecimal(oRea["IMPORTE"]);                            
+                            oBe.NroProcedimiento= Convert.ToString(oRea["NRO_PROCEDIMIENTO"].ToString());
+                            oBe.Proveedor = Convert.ToString(oRea["PROVEEDOR"].ToString());
+
                             oList.Add(oBe);
                         }
                     }

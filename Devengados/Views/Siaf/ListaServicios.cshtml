@@ -17,7 +17,7 @@
     <div class="col-6">
         <h2 class="text-info">Lista Servicios</h2>
     </div>
-    <div class="col-3 offset-3">
+    <div class="col-3 offset-3" style="display:none;">
         <a asp-action="Upsert" asp-controller="Books" class="btn btn-info form-control text-white">
             Agregar Servicio
         </a>
@@ -26,13 +26,18 @@
         <table id="dtServicios" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Author</th>
-                    <th>ISBN</th>
-                    <th>Descripcion</th>
-                    <th>Ubicacion</th>
-                    <th>Cargar</th>
                     <th></th>
+                    <th>Contrato<br />Primigenio</th>
+                    <th>Monto<br />Contractual</th>
+                    <th>Monto<br />Ejecutado</th>
+                    <th>Area<br /> Usuaria</th>
+                    <th>N°<br />Orden</th>
+                    @*<th>Fecha<br />Orden</th>*@
+                    @*<th>Certificado</th>*@
+                    <th>Expediente</th>
+                    @*<th>Ruc</th>*@
+                    <th>Descripcion</th>
+                    <th>Importe</th>
                 </tr>
             </thead>
         </table>

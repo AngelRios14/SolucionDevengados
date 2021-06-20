@@ -36,9 +36,9 @@ namespace Devengados.Controllers
             
             try
             {                
-                using (DAOrden oDAOrden= new DAOrden())
+                using (DAExpediente oDAExpediente= new DAExpediente())
                 {
-                    DataServicio = oDAOrden.ListaOrdenes(General.Connection.BD_SIAF,General.Procedure.sp_ListaServicios);
+                    DataServicio = oDAExpediente.ListaExpedientes(General.Connection.BD_SIAF,General.Procedure.sp_ListaServicios);
                     
                 }                
             }
