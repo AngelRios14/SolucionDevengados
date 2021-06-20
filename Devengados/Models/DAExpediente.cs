@@ -29,6 +29,9 @@ namespace Devengados
                         {
                             BEExpediente oBe = new BEExpediente();
                             oBe.IdExpediente = Convert.ToInt32(oRea["INT_EXPE"]);
+                            oBe.ContratoPrimigenio= Convert.ToString(oRea["CONTRATO_PRIMIGENIO"].ToString());
+                            oBe.MontoContractual= Convert.ToDecimal(oRea["MONTO_CONTRACTUAL"].ToString());
+                            oBe.AreaUsuaria = Convert.ToString(oRea["TXT_EXPEDIENTE"].ToString());
                             oBe.Expediente = Convert.ToString(oRea["TXT_EXPEDIENTE"].ToString());                            
                             oList.Add(oBe);
                         }
