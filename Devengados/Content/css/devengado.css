@@ -1,0 +1,29 @@
+﻿body {
+}
+
+.panel-heading {
+    background-color: #e5e5e5;
+    color: #646565;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+}
+
+/*Estilos de tabla entregable*/
+
+.cabecera {
+    padding: 2px 1px 1px 2px;
+    border: solid 1px #C1C1C1;
+    color: #0266b4;
+    background-color: #F1F1F1;
+    font: 11px Tahoma;
+    font-weight: bold;
+    height: 22px;
+}
+
+
+.cuerpo {
+    width: 100%;
+    background-color: #FFFFFF;
+    border-collapse: collapse;
+    border: solid 1px #C1C1C1;
+}

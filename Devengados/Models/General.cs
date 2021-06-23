@@ -12,7 +12,7 @@ namespace Devengados
         /// </summary>
         public struct Connection
         {
-            //public const string MEM = "MEM";arb
+            //Cadena de conexion en webconig            
             public const string BD_SIAF = "BD_SIAF";
         }
 
@@ -22,7 +22,8 @@ namespace Devengados
         /// </summary>
         private struct Schema
         {
-            public const string DEVENGADO_SIAF_DESA = "HR";    //DESARROLLO            
+            //public const string DEVENGADO_SIAF_DESA = "HR";    //DESARROLLO    IDOSGD        
+            public const string DEVENGADO_SIAF_DESA = "IDOSGD";    //DESARROLLO    
             public const string DEVENGADO_SIAF_QA = "";  //CALIDAD            
             public const string DEVENGADO_SIAF_PROD = "";  //PRODUCCION              
         }

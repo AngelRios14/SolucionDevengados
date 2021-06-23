@@ -92,10 +92,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\devengado.css" />
     <Content Include="Content\css\site.css" />
     <Content Include="Content\Estilos\jquery.dataTables.min.css" />
     <Content Include="Content\Estilos\sweetalert.min.css" />
     <Content Include="Content\Estilos\toastr.min.css" />
+    <Content Include="Content\images\btnBuscar.gif" />
+    <Content Include="Content\images\btnDelete.gif" />
+    <Content Include="Content\images\btnEdit.gif" />
+    <Content Include="Content\images\nuevo.gif" />
+    <Content Include="Content\images\Nuevo.png" />
     <Content Include="Content\images\pcm.png" />
     <Content Include="Content\images\peru.png" />
     <Content Include="Content\Javascript\jquery.dataTables.min.js" />

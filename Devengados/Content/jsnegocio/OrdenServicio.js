@@ -4,6 +4,7 @@ $(document).ready(function () {
     //alert("desde vista de ListaServicios");
 //    Test("Angel");
     fnListaOrdenesServicio();
+    $("#btnGenerarEntregable").click(function () { cargarTablaEntregable("", 0); });
 });
 
 
@@ -54,6 +55,10 @@ function fnListaOrdenesServicio() {
 
 function CargarDataTableServicio(LstServicios) {
 
+    $('#divOrdenServicio').hide();
+    //$("#btnGenerarEntregable").bind("click", Nuevo);  
+    
+
     dataTable = $('#dtServicios').DataTable({
         //"ajax": {
         //    "url": "/OrdenCompraServicio/ListarOrdenes/",
@@ -61,7 +66,7 @@ function CargarDataTableServicio(LstServicios) {
         //    "datatype": "json"
         //},
         "columns": [
-            { "data": null, "className": "dt-center", "defaultContent": "<button class='btn  btn_tblEditar' style='cursor:pointer; width:70px;'   title='Detalle'>Progra-<br>macion</button>" },
+            { "data": null, "className": "dt-center", "defaultContent": "<button    class='btn-xs btn-primary btn_tblEditar'  style='cursor:pointer; width:30px;'   title='Detalle'> <span class='fa fa-lg fa-edit'></span> </button>" },
 
             { "data": null, "defaultContent": "", "width": "5%" },
             { "data": null, "defaultContent": "", "width": "5%" },
@@ -70,9 +75,9 @@ function CargarDataTableServicio(LstServicios) {
             { "data": null, "defaultContent": "", "width": "5%" },
             //{ "data": null, "defaultContent": "", "width": "5%" },
             //{ "data": null, "defaultContent": "", "width": "5%" },
-            { "data": null, "defaultContent": "", "width": "5%" },
+            { "data": "Expediente",  "width": "5%" },
             //{ "data": null, "defaultContent": "", "width": "5%" },
-            { "data": null, "defaultContent": "", "width": "5%" },
+            { "data": "Proveedor", "width": "35%" },
             { "data": "Importe", "width": "5%" }
             //            { "data": "AnoEje", "width": "5%" },
             //{ "data": "NroOrden", "width": "5%" },
@@ -96,4 +101,78 @@ function CargarDataTableServicio(LstServicios) {
         "width": "100%",
         "data": LstServicios
     });
+
+    
+    $('#dtServicios tbody').on('click', '.btn_tblEditar', function () {
+        var table = $('#dtServicios').DataTable();
+
+        //var usuario = table.row($(this).parents('tr')).data();
+        //AbrirDialogoOrden(usuario);
+
+        AbrirDialogoOrden();
+    });
+
+
+}
+
+function AbrirDialogoOrden() {
+    $('#divListaOrdenesServicio').hide();
+    $('#divOrdenServicio').show('slow');
+}
+
+
+function cargarTablaEntregable(pData, pNroFilas) {
+    var oStrHtml = "";
+    var xNroEntregables = $.trim($("#txtCantEntregableS").val());
+
+    if (xNroEntregables != "") {
+        xNroEntregables = xNroEntregables * 1;
+        for (var i = 0; i < xNroEntregables; i++)
+            oStrHtml = oStrHtml + obtenerNuevaFilaHTML("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+    }
+        
+
+    //if (pNroFilas == 0) {
+    //    for (var i = 0; i < 5; i++)
+    //        oStrHtml = oStrHtml + obtenerNuevaFilaHTML("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+    //}
+    //else {
+    //    for (var i = 0; i < pData.length; i++)
+    //        oStrHtml = oStrHtml + obtenerNuevaFilaHTML(i + 1, pData[i].PARAM, pData[i].RAZON, pData[i].DIRECCION, pData[i].TELEFONO);
+    //}
+
+    $("#dtgDatosEntregables").html(oStrHtml);
+}
+
+
+function obtenerNuevaFilaHTML(pIndex, pId,pPlazo, pFechaVenc, pPorcentage, pProgramado, pDocTram, pFecEntregaTram, pNroFact, pMontoDevengado, pPenal1, pPenal2, pNetoPagar, pObs, pFecDeveng, pFecPago) {
+    var oNewTrHTML = "<tr class='celdas' style='height:18px;'>";
+
+    if (false) {
+        //if (pId == "") {
+        oNewTrHTML += "  <td align='center'></td>" +
+            "  <td align='center'></td>";
+    }
+    else {
+        oNewTrHTML += "  <td align='center'><input type='image' style='border-width:1px;border-style:None;' onclick='javascript:EditCompania(\"" + pId + "\");return false;' src='../Content/Images/btnEdit.gif' ></td>" +
+            "  <td align='center'><input type='image' style='border-width:1px;border-style:None;' onclick='javascript:DeltCompania(\"" + pId + "\",\"" + pPlazo + "\");return false;' src='../Content/Images/btndelete.gif' ></td>";
+    }
+
+    oNewTrHTML +="  <td align='right'>" + pIndex + "&nbsp;</td>" +
+        "  <td align='left'>" + pPlazo + "</td>" +
+        "  <td align='left'>" + pFechaVenc + "</td>" +
+        "  <td align='left'>" + pPorcentage + "</td>" +
+        "  <td align='left'>" + pProgramado + "</td>" +
+        "  <td align='left'>" + pDocTram + "</td>" +
+        "  <td align='left'>" + pFecEntregaTram + "</td>" +
+        "  <td align='left'>" + pNroFact + "</td>" +
+        "  <td align='left'>" + pMontoDevengado + "</td>" +
+        "  <td align='left'>" + pPenal1 + "</td>" +
+        "  <td align='left'>" + pPenal2 + "</td>" +
+        "  <td align='left'>" + pNetoPagar + "</td>" +
+        "  <td align='left'>" + pObs + "</td>" +
+        "  <td align='left'>" + pFecDeveng + "</td>" +
+        "  <td align='left'>" + pFecPago + "</td>";   
+
+    return oNewTrHTML + "</tr>";
 }
