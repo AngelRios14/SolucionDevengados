@@ -23,6 +23,7 @@ namespace Devengados
         public string FechaPago { get; set; }
         public string Observacion { get; set; }
         public int IdOrdenEntregable { get; set; }
+        public string NroFactura { get; set; }
 
 
     }   
