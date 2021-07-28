@@ -7,8 +7,49 @@ using System.Data;
 
 namespace Devengados
 {
-    public class DAComprobante
+    public class DAComprobante:GeneralBase
     {
+
+        public List<BEComprobante> ListaTiposComprobantes(string Connection, string Command )
+        {
+            OracleDataReader oRea = null;
+            List<BEComprobante> oList = new List<BEComprobante>();
+            string strCadena = GeneralConfig.LeerConnectionStrings(Connection);
+            try
+            {
+                using (OracleConnection con = new OracleConnection(strCadena))
+                {
+                    using (OracleCommand cmd = new OracleCommand(Command, con))
+                    {
+                        cmd.Connection = con;
+                        cmd.CommandType = CommandType.StoredProcedure;                        
+                        cmd.Parameters.Add("p_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+                        con.Open();
+                        oRea = cmd.ExecuteReader();
+                        while (oRea.Read() && oRea.HasRows)
+                        {
+                            BEComprobante oBe = new BEComprobante();
+                            oBe.IdComprobante = Convert.ToInt32(oRea["id_comprobante"]);
+                            oBe.Descripcion = Convert.ToString(oRea["descripcion"].ToString());                            
+                            oList.Add(oBe);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                try { if (oRea != null) { oRea.Close(); oRea.Dispose(); } }
+                catch (Exception e) { }
+                finally { oRea = null; }
+            }
+
+            return oList;
+        }
+
         public List<BEComprobante> ListaEntregables(string Connection, string Command)
         {
             OracleDataReader oRea = null;

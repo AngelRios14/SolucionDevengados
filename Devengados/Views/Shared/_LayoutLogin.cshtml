@@ -1,0 +1,72 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - DEVENGADOS</title>
+
+    <link href="~/Content/Login/fontawesome-all.min.css" rel="stylesheet" />
+    <link href="~/Content/Login/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Login/SiteLogin.css" rel="stylesheet" />
+
+    <!-- Theme style -->
+
+    <link href="~/Content/Login/bootstrap4.css" rel="stylesheet" />
+    <link href="~/Content/Login/fuentes-personalizadas.css" rel="stylesheet" />
+    <link href="~/Content/Login/lreclamaciones.css" rel="stylesheet" />
+    <script src="~/Content/lib/jquery/dist/jquery.js"></script>
+    @*@Styles.Render("~/Content/css")*@
+    @*@Scripts.Render("~/bundles/jquery")*@
+</head>
+<body>
+    <header>
+        <div class="header__content container">
+            <div style="height:67px; padding-top:10px; float:left;">
+
+                <img src="~/Content/svg/escudo-svg.svg" class="logo__escudo" alt="Escudo Peruano">
+                <img src="~/Content/svg/logo-gobpe.svg" class="logo__gobpe" alt="gob.pe">
+                <div class="texto-logo" style="float:right; font-size:1.1rem; color:white; border-left:1px solid; margin-left:8px;padding-left:8px;">
+                    Sistema de Devengados<br />OAA
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <section class="col-sm-12 main-content--oscuro">
+        <div class="content-wrapper">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </div>
+    </section>
+    <footer class="text-left" style="padding: .9em;">
+        <div class="container info-footer">
+            <div  style="display:none;" class="row mt-2">
+                <div class="col-sm-12 col-md-4 mb-4">
+                    <a href="https://www.gob.pe/" target="_blank">SOBRE EL ESTADO PERUANO</a>
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <h6>SÍGUENOS</h6>
+                    <ul class="d-flex mb-0">
+                        <li class="mr-2"><a href="https://es-la.facebook.com/PCMPERU/" target="_blank"><i class="fab fa-facebook-square footer__icons"></i></a></li>
+                        <li class="mr-2"><a href="https://twitter.com/pcmperu" target="_blank"><i class="fab fa-twitter-square footer__icons"></i></a></li>
+                        <li class="mr-2"><a href="https://www.instagram.com/pcmperu" target="_blank"><i class="fab fa-instagram footer__icons"></i></a></li>
+                        <li class="mr-2"><a href="https://www.youtube.com/user/Audiovisualespcm" target="_blank"><i class="fab fa-youtube-square footer__icons"></i></a></li>
+                        <li><a href="https://www.flickr.com/photos/prensapcm" target="_blank"><i class="fab fa-flickr footer__icons"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

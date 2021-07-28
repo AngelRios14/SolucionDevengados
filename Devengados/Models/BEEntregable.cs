@@ -9,6 +9,7 @@ namespace Devengados
     {
         public int IdEntregable { get; set; }
         public string NroEntregable { get; set; }
+        public int NroSecuencia { get; set; }// artificio no es data de negocio
         public  int Plazo { get; set; }// nro de dias 
         public string FechaVencimiento { get; set; }
         public decimal Porcentaje { get; set; }

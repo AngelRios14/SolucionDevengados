@@ -8,87 +8,175 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>_Layout</title>
-
+    <title>.::Sistema de Devengados::.</title>
 
     <link rel="stylesheet" href="~/Content/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/css/site.css" />
 
+
+    <link href="~/Content/Estilos/jquery-ui.css" rel="stylesheet" />
     <link href="~/Content/Estilos/jquery.dataTables.min.css" rel="stylesheet" />
+
     <link href="~/Content/Estilos/toastr.min.css" rel="stylesheet" />
-    <link href="~/Content/Estilos/sweetalert.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Estilos/sweetalert2.min.css" rel="stylesheet" />
+
     <link href="~/Content/css/devengado.css" rel="stylesheet" />
     <link href="~/Content/Estilos/alertify.min.css" rel="stylesheet" />
 
+
+    <link href="~/Content/css/screen.css" rel="stylesheet" />
+
+    @*<link href="~/Content/Estilos/plugins/datapicker/datepicker3.css" rel="stylesheet" />*@
+
+
     <script src="~/Content/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Content/lib/jquery/dist/jquery-ui.min.js"></script>
+
+    <script src="~/Content/lib/jquery/dist/jquery.mask.js"></script>
     <script src="~/Content/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/Content/js/site.js" asp-append-version="true"></script>
 
     <script type="text/javascript" src="~/Content/Javascript/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="~/Content/Javascript/toastr.min.js"></script>
-    <script type="text/javascript" src="~/Content/Javascript/sweetalert.min.js"></script>
-    <script src="~/Content/Javascript/alertify.min.js"></script>
-    <script src="~/Content/Javascript/general.js"></script>
 
+
+    <script src="~/Content/Javascript/datatablenet/dataTables.buttons.min.js"></script>
+    <script src="~/Content/Javascript/datatablenet/jszip.min.js"></script>
+    <script src="~/Content/Javascript/datatablenet/pdfmake.min.js"></script>
+    <script src="~/Content/Javascript/datatablenet/vfs_fonts.js"></script>
+    <script src="~/Content/Javascript/datatablenet/buttons.html5.min.js"></script>
+
+
+    <script type="text/javascript" src="~/Content/Javascript/toastr.min.js"></script>
+
+    <script src="~/Content/Javascript/sweetalert2.min.js"></script>
+    <script src="~/Content/Javascript/alertify.min.js"></script>
+
+
+    @*<script src="~/Content/lib/jquery-validation/dist/jquery.validate.min.js"></script>*@
+    <script src="~/Content/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/Content/lib/jquery-validation/dist/messages_es_PE.js"></script>
+    @*<script src="~/Content/lib/jquery-validation/dist/jquery-validate.bootstrap-tooltip.js"></script>*@
+
+    @*<script src="~/Content/Javascript/plugins/datapicker/bootstrap-datepicker.js"></script>*@
+    <script src="~/Content/Javascript/general.js"></script>
+    <script src="~/Content/Javascript/FuncionesUtils.js"></script>
+    <script src="~/Content/Javascript/menu/menu.js"></script>
     <script src="~/Content/Javascript/test.js"></script>
 
     <style>
-       
-
     </style>
-   
+
 
 </head>
 <body>
     <div>
-
+        @*  <nav class="navbar navbar-expand-lg navbar-light bg-light">  *@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="navbar-nav">
                         <ul id="menu-dashboard" class="navbar-nav mr-auto mt-2 mt-lg-0">
-                            <li class="nav-item ">@Html.ActionLink("Lista de Servicios", "ListaServicios", "Siaf", new { @class = "nav-item nav-link active" })</li>
-                            <li class="nav-item">@Html.ActionLink("Lista de Compras", "ListaCompras", "Siaf", new { @class = "nav-item nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Pendientes x Devengar", "PendientesPorDevengar", "Siaf", new { @class = "nav-item nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Pendientes de Pago", "PendientesDevengados", "Siaf", new { @class = "nav-item nav-link" })</li>
-                            <li class="nav-item">@Html.ActionLink("Consolidado de Contratos", "ListaContratos", "Siaf", new { @class = "nav-item nav-link" })</li>
-                            
-                            
+
+                            <li id="idLS" class="nav-item active opcion"> <i class='fas fa-tachometer-alt'></i>  @Html.ActionLink("Lista de Servicios", "ListaServicios", "Siaf", new { @class = "nav-item nav-link" })</li>
+                            <li id="idLC" class="nav-item opcion">@Html.ActionLink("Lista de Compras", "ListaCompras", "Siaf", new { @class = "nav-item nav-link" })</li>
+                            <li id="idPPD" class="nav-item opcion">@Html.ActionLink("Pendientes x Devengar", "PendientesPorDevengar", "Siaf", new { @class = "nav-item nav-link" })</li>
+                            <li id="idPP" class="nav-item opcion">@Html.ActionLink("Pendientes de Pago", "PendientesDevengados", "Siaf", new { @class = "nav-item nav-link" })</li>
+                            <li id="idCC" class="nav-item opcion">@Html.ActionLink("Consolidado de Contratos", "ListaContratos", "Siaf", new { @class = "nav-item nav-link" })</li>
+
+
                         </ul>
 
                     </div>
                 </div>
-            </div>            
+            </div>
         </nav>
 
         <!-- Main view  -->
         <div id="onlineStatus" class="row"></div>
-        <div id="cuerpo" class="container">
-            @RenderBody()
+        <div class="content-wrapper">
+            <div id="cuerpo" class="container">
+                @RenderBody()
+            </div>
         </div>
+            
         <div class="row" style="height:110px;"></div>
 
 
-    </div>
+        </div>
+
+        <script>
+
+            var liOpciones;
+             /*
+               $(document).ready(function () {
+
+                   $('#menu-dashboard li').on('click', function (e) {
+                       //alert("aa");
+                       // $('#submenu').removeClass('in');
+
+                       //fnSeleccionarOpcion($(this).attr('id'));
+                       //$('#menu-dashboard li').toggleClass();
+                   });
+
+                   $('#menu-dashboard li').click(function () {
+                       //alert($(this).attr('id'));
+                   });
+
+                  //fnSeleccionarOpcion();
+               });
+            */
 
 
-    <script>
-        $(document).ready(function () {
+//function fnSeleccionarOpcion(id) {
 
-            $('#menu-dashboard li').on('click', function (e) {
-                //alert("aa");
-                // $('#submenu').removeClass('in');
-                $('#menu-dashboard li').toggleClass();
-            });
+//    debugger;
 
-        });
+//    liOpciones = document.getElementById("navbarSupportedContent").getElementsByClassName("opcion");
+//    let nroOpc = liOpciones.length;
+//    let xli;
+//    let xid = id;
+//    //alert("seleccionar" + nroOpc);
+//    for (var i = 0; i < nroOpc; i++) {
+//        xli = liOpciones[i];
+//        if (xli.id == xid)
+//            $('#' + xli.id).addClass('active');
+//        else
+//            $('#' + xli.id).removeClass("active");
+//    }
 
-    </script>
+//    /*
+//    $("#navbarSupportedContent").on("click", "li", function (e) {
 
-</body >
+//        console.log($(this).id);
+//        $('#navbarSupportedContent ul li').removeClass(".active");
+//        $(this).addClass('.active');
+//      });*/
+//}
+//function fnOperacionEstiloMenu(li) {
+//    var liOpciones=liOpciones;//= document.getElementById("navbarSupportedContent").getElementsByClassName("opcion");
+//    let nroOpc = liOpciones.length;
+//    let xli;
+
+//    alert("funcion interna:" + nroOpc);
+//    for (var i = 0; i < nroOpc; i++) {
+//        xli = liOpciones[i];
+//        $('#' + xli.id).removeClass("active");
+//    }
+
+//    $('#' + li.id).addClass('active');
+
+//}
+
+
+        </script>
+
+
+
+
+</body>
 </html >

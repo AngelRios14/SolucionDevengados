@@ -5,40 +5,412 @@
 }
 
 
-
 <script>
-    
-
+    var xpath = '@Url.Action("CSListaExpedientesOS", "Siaf")';
+    var xpathRegExpOrdenServ = '@Url.Action("RegistrarExpOrdenServicio", "Siaf")';
+    var xpathActualizarEntregable = '@Url.Action("ActualizarEntregable", "Siaf")';
+    var xpathObtenerExpediente = '@Url.Action("CSObtenerExpediente", "Siaf")';
+    var xpathEliminarEntregable = '@Url.Action("EliminarEntregable", "Siaf")';
 
 </script>
 
+<script src="~/Content/jsnegocio/ListaOrdenCompras.js">
 
+</script>
 <br />
-<div class="container row p-0 m-0">
-    <div class="col-6">
-        <h2 class="text-info">Lista Compras</h2>
+@*<form  class="needs-validation" novalidate>*@
+
+
+<div class="container row ">
+
+
+
+    <div id="divListaOrdenesServicio">
+        <div class="col-12">
+
+
+        </div>
+        @*<div class="col-3 offset-3" style="display:none;">
+                <a asp-action="Upsert" asp-controller="Books" class="btn btn-info form-control text-white">
+                    Agregar Servicio
+                </a>
+            </div>*@
+        <div class="col-12 border p-3">
+            <div class="panel-heading">
+                <h3>Lista de Ordenes de Compras</h3>
+            </div>
+            <br />
+            <div class="panel-body">
+                <table id="dtServicios" class="table table-striped table-bordered" style="width:100%">
+                    @*<thead>
+                            <tr>
+                                <th></th>
+                                <th>Contrato<br />Primigenio</th>
+                                <th>Monto<br />Contractual</th>
+                                <th>Monto<br />Ejecutado</th>
+                                <th>Area<br /> Usuaria</th>
+                                <th>N°<br />Orden</th>
+                                <th>Fecha<br />Orden--</th>
+                                <th>Certificado--</th>
+                                <th>Expediente</th>
+                                <th>Ruc--</th>
+                                <th>Proveedor</th>
+                                <th>Importe</th>
+                            </tr>
+                        </thead>*@
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="col-3 offset-3">
-        <a asp-action="Upsert" asp-controller="Books" class="btn btn-info form-control text-white">
-            Agregar Servicio
-        </a>
+
+    @*MODAL ORDEN*@
+
+
+    <div id="divOrdenServicio" class="container">
+        <form id="frmRegOrden" class="row">
+
+            <div class="col-12 border p-3">
+                <div class="panel panel-default" style="margin-bottom: 10px;">
+                    <div class="panel-heading">
+                        <span> Ejecucion Contractual - Reporte de Control de Saldo</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-horizontals">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="txtContratoExpOS">Contrato / Nro ORDEN:</label>
+                                    <input id="txtContratoExpOS" name="txtContratoExpOS" type="text" class="form-control" maxlength="40">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="txtProcedimientoExpOS"> N° de Procedimiento:</label>
+                                    <input id="txtProcedimientoExpOS" name="txtProcedimientoExpOS" type="text" class="form-control" maxlength="40">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label" for="txtDescripcionExpOS"> Descripcion:</label>
+                                    <input id="txtDescripcionExpOS" name="txtDescripcionExpOS" type="text" class="form-control" maxlength="300">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label" for="txtProveedorExpOS"> Proveedor:</label>
+                                    <input id="txtProveedorExpOS" name="txtProveedorExpOS" type="text" class="form-control" maxlength="300">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="txtFecNotiContratoExpOS">Fecha de Notificacion / Firma de Contrato:</label>
+                                    <input id="txtFecNotiContratoExpOS" name="txtFecNotiContratoExpOS" type="text" class="form-control date" maxlength="10" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="txtPlazoExpOS"> Plazo (en dias):</label>
+                                    <input id="txtPlazoExpOS" name="txtPlazoExpOS" type="text" class="form-control" onkeypress="return validarFormato(event, this, 'NumeroEntero', 3);"
+                                           maxlength="3" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="txtFecInicioPlazoExpOS">Inicio de plazo :</label>
+                                    <input id="txtFecInicioPlazoExpOS" name="txtFecInicioPlazoExpOS" type="text" class="form-control date" maxlength="10" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="txtFecFinPlazoExpOS"> Finalización de Plazo:</label>
+                                    <input id="txtFecFinPlazoExpOS" name="txtFecFinPlazoExpOS" type="text" class="form-control date" maxlength="10" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="txtMontoContraVigExpOS">Monto Contractual Vigente (S/) :</label>
+                                    <input id="txtMontoContraVigExpOS" name="txtMontoContraVigExpOS" type="text" class="form-control number" maxlength="10">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="txtMontoAdjExpOS"> Monto Adjudicado (S/):</label>
+                                    <input id="txtMontoAdjExpOS" name="txtMontoAdjExpOS" type="text" class="form-control number" maxlength="10">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="txtPrestaAdicionalExpOS">(+) Prestaciones adicionales (S/) :</label>
+                                    <input id="txtPrestaAdicionalExpOS" name="txtPrestaAdicionalExpOS" type="text" class="form-control number" maxlength="10">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label" for="txtReduccionExpOS"> (-) Reducciones (S/):</label>
+                                    <input id="txtReduccionExpOS" name="txtReduccionExpOS" type="text" class="form-control number" maxlength="10">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <div class="col-12 border p-4">
+                                        <div class="panel-heading">
+                                            <span> 2021 </span>
+                                        </div>
+                                        <div class="panel-body">
+
+                                            <div class="panel-body-2">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label" for="txtNroOrdenS">Orden N°:</label>
+                                                        <input id="txtNroOrdenS" name="txtNroOrdenS" type="text" class="form-control" maxlength="10" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label" for="txtExpSiafS"> Exp. SIAF:</label>
+                                                        <input id="txtExpSiafS" name="txtExpSiafS" type="text" class="form-control" maxlength="20">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label" for="txtCertificadoS">Certificado N°:</label>
+                                                        <input id="txtCertificadoS" name="txtCertificadoS" type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label" for="txtMontoCompromSiafS">Monto Comprometido SIAF(S/):</label>
+                                                        <input id="txtMontoCompromSiafS" name="txtMontoCompromSiafS" type="text" class="form-control number" maxlength="10" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label" for="txtAmpSiafS"> Ampliacion SIAF(S/):</label>
+                                                        <input id="txtAmpSiafS" name="txtAmpSiafS" type="text" class="form-control number" maxlength="10">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label" for="txtRebajaSiafS"> Rebaja SIAF(S/):</label>
+                                                        <input id="txtRebajaSiafS" name="txtRebajaSiafS" type="text" class="form-control number" maxlength="10">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label" for="txtMontoDevengadoSiafS">Monto Devengado SIAF(S/):</label>
+                                                        <input id="txtMontoDevengadoSiafS" name="txtMontoDevengadoSiafS" type="text" class="form-control number" maxlength="10">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label class="control-label" for="txtSaldoSiafS"> Saldo SIAF(S/):</label>
+                                                        <input id="txtSaldoSiafS" name="txtSaldoSiafS" type="text" class="form-control number" maxlength="10">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6 ">
+                                                        <label class="control-label" for="txtCantEntregableS"> Cantidad de Entregables:</label>
+                                                        <input id="txtCantEntregableS" name="txtCantEntregableS" type="text" class="form-control" onkeypress="return validarFormato(event, this, 'NumeroEntero', 2);" required>
+
+                                                    </div>
+                                                    <div class="form-group col-md-6 ">
+                                                        <label class="control-label" for="btnEnt"> :: </label><br />
+                                                        <button id="btnGenerarEntregable" type="button" class="btn btn-primary">
+                                                            <span class="glyphicon glyphicon-export"></span>  Generar Entregables
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body-2" style="overflow:auto;">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-12">
+                                                        <table id="dtgEntregables" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" border="1" rules="all" style="height:100%;width:100%;border-collapse:collapse;">
+                                                            <thead>
+                                                                <tr class="cabecera-1" align="center">
+                                                                    <th align="center" style="width: 3%"></th>
+                                                                    @*<th align="center" style="width: 3%"></th>*@
+                                                                    <th align="center" style="width: 3%">Nº</th>
+                                                                    <th align="center" style="width: 4%">Plazo</th>
+                                                                    <th align="center" style="width: 10%">Fecha<br>Vencimiento</th>
+                                                                    <th align="center" style="width: 4%">%</th>
+                                                                    <th align="center" style="width: 10%">Programado(S/)</th>
+                                                                    <th align="center" style="width: 10%">Doc<br>Tramite</th>
+                                                                    <th align="center" style="width: 10%">Fecha<br>EntregaTram</th>
+                                                                    <th align="center" style="width: 5%">N°Factura</th>
+                                                                    <th align="center" style="width: 10%">Monto<br>Devengado(S/)</th>
+                                                                    <th align="center" style="width: 10%">Penalidad<br>Mora(S/)</th>
+                                                                    <th align="center" style="width: 10%">Otras<br>Penalidades(S/)</th>
+                                                                    <th align="center" style="width: 10%">Monto a <br>Pagar(S/)</th>
+                                                                    <th align="center" style="width: 10%">Obs.</th>
+                                                                    <th align="center" style="width: 10%">Fecha<br>Devengado</th>
+                                                                    <th align="center" style="width: 10%">Fecha<br>Pago</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="dtgDatosEntregables">
+                                                                <tr>
+                                                                    <td colspan="10" valign="middle" align="center">
+                                                                        @*<img id="imgcargando" src="../Images/ajax_loader1.gif" width="110" height="100" alt="cargando" />*@
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <table id="dtgEntregablesPlg" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" border="1" rules="all" style="height:100%;width:100%;border-collapse:collapse; display:none;">
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="txtMontoContractualExpOS"> Monto Contractual(S/):</label>
+                                    <input id="txtMontoContractualExpOS" name="txtMontoContractualExpOS" type="text" class="form-control number">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label" for="txtTotalDevengadoExpOS"> Total Devengado(S/):</label>
+                                    <input id="txtTotalDevengadoExpOS" name="txtTotalDevengadoExpOS" type="text" class="form-control number">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label" for="txtPenalidadMoraExpOS"> Penalidad Mora(S/):</label>
+                                    <input id="txtPenalidadMoraExpOS" name="txtPenalidadMoraExpOS" type="text" class="form-control number">
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label class="control-label" for="txtOtrasPenalidadesExpOS"> Otras Penalidades(S/):</label>
+                                    <input id="txtOtrasPenalidadesExpOS" name="txtOtrasPenalidadesExpOS" type="text" class="form-control number">
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label class="control-label" for="txtSaldoPendienteExpOS"> Saldo Pendiente(S/):</label>
+                                    <input id="txtSaldoPendienteExpOS" name="txtSaldoPendienteExpOS" type="text" class="form-control number">
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12 text-right">
+                                    <div class="btn-group ">
+                                        <button type="button" class="btn btn-danger" title="Cerrar" onclick="CerrarDlgOrdenServ()">Cerrar&nbsp;<span class="fa fa-lg fa-times-circle"></span></button>
+                                        <button id="btnGuardarExpedienteOrden" type="button" class="btn btn-primary" title="Guardar ">Guardar&nbsp;<span class="fa fa-lg fa-save"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
     </div>
-    <div class="col-12 border p-3">
-        <table id="dtServicios" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Author</th>
-                    <th>ISBN</th>
-                    <th>Descripcion</th>
-                    <th>Ubicacion</th>
-                    <th>Cargar</th>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
+
+    @*MODAL ENTREGABLE *@
+
+    <div id="divEntregables" class="container">
+        <form id="frmEntregable" class="row">
+
+            <div class="col-12 border p-3">
+                <div class="panel-heading">
+                    <span id="lblNroEntregable"> </span>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontals">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtEntregableNroS"> Entregable N°:</label>
+                                <input id="txtEntregableNroS" name="txtEntregableNroS" type="text" class="form-control" onkeypress="return validarFormato(event, this, 'NumeroEntero', 3);">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtPlazoES"> Plazo:</label>
+                                <input id="txtPlazoES" name="txtPlazoES" type="text" class="form-control" onkeypress="return validarFormato(event, this, 'NumeroEntero', 3);" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtFechaVencES"> Fecha Vencimiento:</label>
+                                <input id="txtFechaVencES" name="txtFechaVencES" type="text" class="form-control date" maxlength="10">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtPorcentajeES"> Porcentage(%) :</label>
+                                <input id="txtPorcentajeES" name="txtPorcentajeES" type="text" class="form-control number" maxlength="5">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtProgramadoES"> Programado(S/):</label>
+                                <input id="txtProgramadoES" name="txtProgramadoES" type="text" class="form-control number" maxlength="15">
+                            </div>
+                            <div class="form-group col-md-6">
+
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtDocTramiteES"> Doc. Tramite:</label>
+                                <input id="txtDocTramiteES" name="txtDocTramiteES" type="text" class="form-control" maxlength="20">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtFechaTramiteES"> Fecha Entrega Tramite :</label>
+                                <input id="txtFechaTramiteES" name="txtFechaTramiteES" type="text" class="form-control date" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label class="control-label" for="txtFacturaES"> Factura:</label>
+                                <input id="txtFacturaES" name="txtFacturaES" type="text" class="form-control" maxlength="20">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtMontoDevengadoSE"> Monto Devengado(S/):</label>
+                                <input id="txtMontoDevengadoSE" name="txtMontoDevengadoSE" type="text" class="form-control number formulaEntreg" maxlength="12">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtPenalidadMoraSE">Penalidad por Mora(S/) :</label>
+                                <input id="txtPenalidadMoraSE" name="txtPenalidadMoraSE" type="text" class="form-control number formulaEntreg" maxlength="12">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtOtrasPenaSE"> Otras Penalidades(S/):</label>
+                                <input id="txtOtrasPenaSE" name="txtOtrasPenaSE" type="text" class="form-control number formulaEntreg" maxlength="12">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtMontoPagarSE">Monto a Pagar(S/) :</label>
+                                <input id="txtMontoPagarSE" name="txtMontoPagarSE" type="text" class="form-control number" maxlength="12">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtFechaDevengadoSE"> Fecha Devengado:</label>
+                                <input id="txtFechaDevengadoSE" name="txtFechaDevengadoSE" type="text" class="form-control date" maxlength="10">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="txtFechaPagoSE">Fecha de Pago:</label>
+                                <input id="txtFechaPagoSE" name="txtFechaPagoSE" type="text" class="form-control date" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label class="control-label" for="txtObsSE"> Observaciones:</label>
+                                <textarea id="txtObsSE" name="txtObsSE" class="form-control" maxlength="500"> </textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12 text-right">
+                                <div class="btn-group ">
+                                    <button type="button" class="btn btn-danger" title="Cerrar" onclick="CerrarDlgEntregable()">Cerrar&nbsp;<span class="fa fa-lg fa-times-circle"></span></button>
+                                    <button type="button" id="btnGuardarEntregable" class="btn btn-primary" title="Actualizar">Guardar&nbsp;<span class="fa fa-lg fa-save"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-lg-12">
+
+                                <div class="col-lg-12 text-right divBotonesForm">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-danger" title="Cerrar" onclick="CerrarDlgEntregable()">Cerrar&nbsp;<span class="fa fa-lg fa-times-circle"></span></button>
+                                        <button id="btnGuard" type="button" class="btn btn-primary" onclick="GuardarEntregable()" title="Guardar ">Guardar&nbsp;<span class="fa fa-lg fa-save"></span></button>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
+
+    <input type="hidden" id="hdIdExpediente" />
+    <input type="hidden" id="hdIdOrdenServicio" />
+    <input type="hidden" id="hdIdEntregable" />
+    <input type="hidden" id="hdIdSecuencia" />
+
 </div>
 
-
-
+@*</form>*@

@@ -42,3 +42,32 @@
     border: 1px solid #337ab7;
     border-radius: 8px;
 }
+
+
+
+.invalid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+
+.valid-feedback {
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #28a745;
+}
+
+
+.invalido {
+    border-color: #dc3545;
+}
+
+.valido {
+    border-color: #28a745;
+}
+

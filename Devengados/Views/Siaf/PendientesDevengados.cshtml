@@ -4,5 +4,109 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>PendientesDevengados</h2>
+<script>
 
+    var xpathLstPendientesDevengados = '@Url.Action("ListaExpPendientesDevengados", "Siaf")';
+    var xpathLstActualizarEntregablePago = '@Url.Action("ActualizarEntregablePago", "Siaf")';
+    var xpathLstOficinas = '@Url.Action("ListaOficinas", "Siaf")';
+    var xpathLstEstadosxOficina = '@Url.Action("ListaEstadosxOficina", "Siaf")';
+    
+</script>
+
+<script src="~/Content/jsnegocio/PendientesDevengados.js"></script>
+
+<br />
+<div class="container">
+    <form>
+        <div id="divListaExpedientesDevengados">
+            <div class="col-12">
+            </div>
+
+
+            <div class="col-12 border p-3" style="overflow:auto">
+                <div class="panel-heading">
+                    <h3>Pendientes de Pago</h3>
+                </div>
+                <br />                
+                <div class="panel-body">
+                    <table id="dtPendientesDevengados" class="table table-striped table-bordered" style="width:100%">
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+    
+</div>
+
+
+<!-- Modal -->
+
+<form>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Programacion Devengados</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="ddlOficina" class="col-sm-4 col-form-label"> Ubicacion:</label>
+                        <div class="col-sm-6">
+                            <select id="ddlOficina" class="form-control">
+                                <option value="0">Seleccione...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ddlEstado" class="col-sm-4 col-form-label"> Estado:  </label>
+                        <div class="col-sm-6">
+                            @*<input type="text" class="form-control" id="inputEmail3" placeholder="" value="">*@
+                            <select id="ddlEstado" class="form-control">
+                                <option value="0">Seleccione...</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none;">
+                        <label for="txtFecEstado" class="col-sm-4 col-form-label"> Fecha Estado:</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtFecEstado" placeholder="" value="">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="display:none;">
+                        <label for="txtFecDevengadoSiaf" class="col-sm-4 col-form-label"> Fecha de devengado SIAF:  </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtFecDevengadoSiaf" placeholder="" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="txtFecPago" class="col-sm-4 col-form-label"> Fecha de Pago SIAF:  </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtFecPago" placeholder="" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group row" style="display:none">
+                        <label for="txtObservacion" class="col-sm-4 col-form-label"> Observacion:  </label>
+                        <div class="col-sm-6">
+                            <textarea class="form-control" id="txtObservacion" placeholder="" value=""> </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btnActualizarPP" class="btn btn-primary">Actualizar</button>
+                </div>
+            </div>
+        </div>
+        <input id="hdIdEntregable" type="hidden" />
+
+    </div>
+
+</form>

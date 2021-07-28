@@ -1,0 +1,148 @@
+﻿@model Devengados.GeneralModels
+
+@{
+    ViewBag.Title = "CambioClave";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+
+
+@using (Html.BeginForm("CambioClave", "Login", FormMethod.Post, new { @class = "form-signin" }))
+{
+    @Html.AntiForgeryToken()
+    @*@Html.HiddenFor(model => model.iRecordCount,
+        new
+        {
+            @id = "hCountIntentos",
+            @Value = Model.iRecordCount,
+            @Style = "display:none;"
+
+        })*@
+
+    
+
+    
+
+    <section class="wrapper-frmSesion">
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="card-title">
+                    <img src="~/Images/logo_pcm.png" style="max-width: 100%; margin-bottom:8px;" />
+                    <h5 class="text-center">:::::</h5>
+                    <h5 class="text-center">:::::</h5>
+                </div>
+
+                <div class="form-login">
+                    <div class="text-left">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            @*<input type="text" style="height:42px;" class="form-control" placeholder="Usuario" id="inputEmail" name="strUsuario">*@
+                            @Html.TextBoxFor(model => model.strUsuario, new { @Value = Model.strUsuario,  @placeholder ="Usuario" ,@class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            @*<input type="password" style="height:42px;" class="form-control" placeholder="Contraseña" id="inputPassword" name="strClave" autocomplete="off">*@
+
+                            @Html.TextBoxFor(model => model.strClave, new { @Value = Model.strClave, @placeholder = "Contraseña", @class = "form-control", @type = "password" })
+                        </div>
+                        <div class="form-group" style="margin-bottom: 10px; display:none;" id="divCaptcha">
+                            <div class="row" style="margin: 0px;">
+                                <div class="col-md-5 pl-0 d-flex">
+                                    <img id='imgCaptcha' class="img-captcha" style="max-width: 80% !important;" alt="Código Captcha" src="" />
+                                    <a id="lnkRefrescarCaptcha" href="javascript:void(0)" tabindex="-1" class="btn-refresh" style="position: relative; top: 10px;" title="Refresca Código">
+                                        <img src="~/Images/icon-refresh.png" class="img-refrescar" alt="Refrescar" border="0" />
+                                    </a>
+                                </div>
+                                <div class="col-md-7" style="padding: 0px;">
+                                    <input type="text" style="height:42px;" id="inputCaptcha" name="strCapcha" class="form-control col-md-12" maxlength="4" autocomplete="off"
+                                           placeholder="Ingrese la palabra">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <br />
+                    </div>
+
+
+                    <div class="text-left">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" style="height:42px;" class="form-control" placeholder="Nueva Contraseña" id="inputNewPassword" name="strNuevaClave" autocomplete="off">
+                        </div>
+
+                        <br />
+                    </div>
+
+                    <div class="text-left">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" style="height:42px;" class="form-control" placeholder="Copia Nueva Contraseña" id="inputCopiaNewPassword" name="strCopiaNuevaClave" autocomplete="off">
+                        </div>
+
+                        <br />
+                    </div>
+
+                    <button class="btn btn-sucess py-md-3 mb-3" type="submit">Cambiar Clave</button>
+                    @if (Model.MensajeResult != "")
+                     {
+
+                            <div class="alert alert-primary text-center" role="alert">
+                                &nbsp;@Model.MensajeResult
+
+                            </div>
+                     }
+
+
+
+                    @*<span class="text-center d-block"><a class="olvide-contrasenia link-red btn-modal" data-toggle="modal" data-target="#modalOlvidoClave" href="#">¿Olvidó su contraseña?</a></span>*@
+                </div>
+
+                @*<input type="text" id="inputEmail" name="strUsuario" class="form-control" placeholder="Usuario" required autofocus>
+                    <input type="password" id="inputPassword" name="strClave" class="form-control" placeholder="Clave" required>
+
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <div class="row" style="margin: 0px;">
+                            <div class="col-md-6 pl-0 d-flex">
+                                <img id='imgCaptcha' class="img-captcha" alt="Código Captcha" src="" />
+                                <a id="lnkRefrescarCaptcha" href="javascript:void(0)" tabindex="-1" class="btn-refresh" style="position: relative; top: 20px;" title="Refresca Código">
+                                    <img src="~/Images/icon-refresh.png" class="img-refrescar" alt="Refrescar" border="0" />
+                                </a>
+                            </div>
+                            <div class="col-md-6" style="padding: 0px;">
+                                <input type="text" id="inputCaptcha" name="strCapcha" class="form-control col-md-12" maxlength="4" autocomplete="off"
+                                       style="text-transform: uppercase; margin: 0px;" onkeyup="javascript: this.value = this.value.toUpperCase();" required>
+                                <small>Escriba el texto de la imagen</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-rojo-oscuro" type="submit">Iniciar Sessión</button>*@
+            </div>
+        </div>
+    </section>
+}
+
+<script>
+
+    $(document).ready(function () {
+        //window.history.go(+1);
+        $('#inputEmail').focus();
+    });
+     var myPath = '@Url.Content("~/Login/GenerarCaptcha/")';
+   // alert(myPath);
+</script>
+
+
+

@@ -16,7 +16,8 @@ namespace Devengados
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Siaf", action = "ListaServicios", id = UrlParameter.Optional }
+                //defaults: new { controller = "Siaf", action = "ListaServicios", id = UrlParameter.Optional }
+                defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

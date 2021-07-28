@@ -13,6 +13,7 @@ namespace Devengados
         public List<BEEntregable> ListaEntregables(string Connection, string Command, int idOrden)
         {
             OracleDataReader oRea = null;
+            int indice = 0;
             List<BEEntregable> oList = new List<BEEntregable>();
             string strCadena = GeneralConfig.LeerConnectionStrings(Connection);
             try
@@ -32,6 +33,7 @@ namespace Devengados
                             BEEntregable oBe = new BEEntregable();
                             oBe.IdEntregable = Convert.ToInt32(oRea["ID_ENTREGABLE"]);
                             oBe.NroEntregable = Convert.ToString(oRea["NRO_ENTREGABLE"].ToString());
+                            oBe.NroSecuencia = indice;
                             oBe.Plazo = oRea["PLAZO"] == DBNull.Value ? -1 : Convert.ToInt32(oRea["PLAZO"]);
                             //oBe.FechaVencimiento = oRea["FECHA_VENCIMIENTO"] == DBNull.Value ? -1 : Convert.ToDecimal(oRea["MONTO_EJECUTADO"]);
                             oBe.FechaVencimiento = Convert.ToString(oRea["FECHA_VENCIMIENTO"]);
@@ -49,7 +51,7 @@ namespace Devengados
                             oBe.FechaPago = Convert.ToString(oRea["FECHA_PAGO"].ToString());
                             oBe.Observacion = Convert.ToString(oRea["OBSERVACION"].ToString());
                             oBe.IdOrdenEntregable = Convert.ToInt32(oRea["ID_ORDEN"]);
-
+                            indice++;
                             oList.Add(oBe);
                         }
                     }
@@ -93,13 +95,39 @@ namespace Devengados
                         cm.Parameters.Add("p_fecha_vencimiento", objEntregableOS["fechaVenc"]);
                         cm.Parameters.Add("p_porcentaje", objEntregableOS["porcentaje"]);
 
-                        cm.Parameters.Add("p_monto_programado", objEntregableOS["montoprograma"]);
+
+                        if (string.IsNullOrEmpty(objEntregableOS["montoprograma"]) == true)
+                            cm.Parameters.Add("p_monto_programado", objEntregableOS["montoprograma"]);
+                        else
+                            cm.Parameters.Add("p_monto_programado", Convert.ToDecimal(objEntregableOS["montoprograma"]));                        
+
+                        
                         cm.Parameters.Add("p_doc_tramite", objEntregableOS["docTram"]);
                         cm.Parameters.Add("p_fecha_tramite", objEntregableOS["fecTram"]);
-                        cm.Parameters.Add("p_monto_devengado", objEntregableOS["montoDeveng"]);
-                        cm.Parameters.Add("p_penalidad_mora", objEntregableOS["penalidadMora"]);
-                        cm.Parameters.Add("p_penalidad_otros", objEntregableOS["penalidadOtros"]);
-                        cm.Parameters.Add("p_neto_pagar", objEntregableOS["montoPagar"]);
+
+                        if (string.IsNullOrEmpty(objEntregableOS["montoDeveng"]) == true)
+                            cm.Parameters.Add("p_monto_devengado", objEntregableOS["montoDeveng"]);
+                        else
+                            cm.Parameters.Add("p_monto_devengado", Convert.ToDecimal(objEntregableOS["montoDeveng"]));
+
+
+                        if (string.IsNullOrEmpty(objEntregableOS["penalidadMora"]) == true)
+                            cm.Parameters.Add("p_penalidad_mora", objEntregableOS["penalidadMora"]);
+                        else
+                            cm.Parameters.Add("p_penalidad_mora", Convert.ToDecimal(objEntregableOS["penalidadMora"]));
+
+
+                        if (string.IsNullOrEmpty(objEntregableOS["penalidadOtros"]) == true)
+                            cm.Parameters.Add("p_penalidad_otros", objEntregableOS["penalidadOtros"]);
+                        else
+                            cm.Parameters.Add("p_penalidad_otros", Convert.ToDecimal(objEntregableOS["penalidadOtros"]));
+
+
+                        if (string.IsNullOrEmpty(objEntregableOS["montoPagar"]) == true)
+                            cm.Parameters.Add("p_neto_pagar", objEntregableOS["montoPagar"]);
+                        else
+                            cm.Parameters.Add("p_neto_pagar", Convert.ToDecimal(objEntregableOS["montoPagar"]));
+                        
                         cm.Parameters.Add("p_fecha_devengado", objEntregableOS["fecDeveng"]);
                         cm.Parameters.Add("p_fecha_pago", objEntregableOS["fecPago"]);
                         cm.Parameters.Add("p_observacion", objEntregableOS["observacion"]);
@@ -140,11 +168,185 @@ namespace Devengados
                 if (cnx.State == ConnectionState.Open) cnx.Close();
             }
         }
+
+
+
+        public int ActualizarEntregableEstado(ref Dictionary<string, string> objEntregableOS, string Connection, string Command)
+        {
+            string strCadena = GeneralConfig.LeerConnectionStrings(Connection);
+            string[] strRpta = { };
+            OracleConnection cnx = null;
+            try
+            {
+                using (cnx = new OracleConnection(strCadena))
+                {
+                    using (OracleCommand cm = new OracleCommand(Command, cnx))
+                    {
+                        cm.CommandType = CommandType.StoredProcedure;
+                        cm.BindByName = true;
+
+                        /////////////////////////////////////////
+                        //if (long.Parse(objEntregableOS["ide"]) != 0) cm.Parameters.Add("p_IDE_USUARIO", objEntregableOS["ide"]);
+                        cm.Parameters.Add("p_id_entregable", objEntregableOS["idEntregable"]);
+                        cm.Parameters.Add("p_id_oficina", objEntregableOS["idOficina"]);
+                        cm.Parameters.Add("p_id_estado", objEntregableOS["idEstado"]);
+
+                        cm.Parameters.Add("p_fecha_estado", objEntregableOS["fecEstado"]);
+                        
+                        cm.Parameters.Add("p_fecha_devengado", objEntregableOS["fecDevengado"]);
+                        
+                        cm.Parameters.Add("p_observacion", objEntregableOS["observacion"]);
+
+
+                        //cm.Parameters.Add("p_numero_contacto", string.IsNullOrEmpty(objEntregableOS["contacto"]) == true ? null : objEntregableOS["contacto"]);
+                        //cm.Parameters.Add("p_email", string.IsNullOrEmpty(objEntregableOS["email"]) == true ? null : objEntregableOS["email"]);
+                        //if (objEntregableOS.ContainsKey("P_RENIEC")) cm.Parameters.Add("P_RENIEC", objEntregableOS["reniec"].Trim());
+
+                        //cm.Parameters.Add("p_usuario", objEntregableOS["usuario"].Trim());                        
+
+                        //cm.Parameters.Add("p_IdeNuevo", OracleDbType.Int32, ParameterDirection.Output).Size = 8;
+                        cm.Parameters.Add("p_resultado", OracleDbType.Int32, ParameterDirection.Output).Size = 8;
+                        cm.Parameters.Add("p_errorMsn", OracleDbType.Varchar2, ParameterDirection.Output).Size = 200;
+                        cnx.Open();
+                        cm.ExecuteNonQuery();
+
+
+                        int intResultado = int.Parse(cm.Parameters["p_resultado"].Value.ToString());
+                        string strDescrError = cm.Parameters["p_errorMsn"].Value.ToString();
+                        if (intResultado != 1) throw new Exception(strDescrError);
+                        //int intNuevoIde = int.Parse(cm.Parameters["p_IdeNuevo"].Value.ToString());
+                        /*if (long.Parse(objEntregableOS["ide"]) == 0)
+                        {
+                            objEntregableOS["ide"] = intNuevoIde.ToString();
+                        }*/
+
+                        return intResultado;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                if (cnx.State == ConnectionState.Open) cnx.Close();
+            }
+        }
+
+
+        public int ActualizarEntregablePago(ref Dictionary<string, string> objEntregableOS, string Connection, string Command)
+        {
+            string strCadena = GeneralConfig.LeerConnectionStrings(Connection);
+            string[] strRpta = { };
+            OracleConnection cnx = null;
+            try
+            {
+                using (cnx = new OracleConnection(strCadena))
+                {
+                    using (OracleCommand cm = new OracleCommand(Command, cnx))
+                    {
+                        cm.CommandType = CommandType.StoredProcedure;
+                        cm.BindByName = true;
+
+                        /////////////////////////////////////////
+                        //if (long.Parse(objEntregableOS["ide"]) != 0) cm.Parameters.Add("p_IDE_USUARIO", objEntregableOS["ide"]);
+                        cm.Parameters.Add("p_id_entregable", objEntregableOS["idEntregable"]);
+                        cm.Parameters.Add("p_id_oficina", objEntregableOS["idOficina"]);
+                        cm.Parameters.Add("p_id_estado", objEntregableOS["idEstado"]);
+                        cm.Parameters.Add("p_fecha_estado", objEntregableOS["fecEstado"]);
+                        cm.Parameters.Add("p_fecha_devengado", objEntregableOS["fecDevengado"]);
+                        cm.Parameters.Add("p_fecha_pago", objEntregableOS["fecPago"]);
+                        cm.Parameters.Add("p_observacion", objEntregableOS["observacion"]);
+
+                        //cm.Parameters.Add("p_numero_contacto", string.IsNullOrEmpty(objEntregableOS["contacto"]) == true ? null : objEntregableOS["contacto"]);
+                        //cm.Parameters.Add("p_email", string.IsNullOrEmpty(objEntregableOS["email"]) == true ? null : objEntregableOS["email"]);
+                        //if (objEntregableOS.ContainsKey("P_RENIEC")) cm.Parameters.Add("P_RENIEC", objEntregableOS["reniec"].Trim());
+
+                        //cm.Parameters.Add("p_usuario", objEntregableOS["usuario"].Trim());                        
+
+                        //cm.Parameters.Add("p_IdeNuevo", OracleDbType.Int32, ParameterDirection.Output).Size = 8;
+                        cm.Parameters.Add("p_resultado", OracleDbType.Int32, ParameterDirection.Output).Size = 8;
+                        cm.Parameters.Add("p_errorMsn", OracleDbType.Varchar2, ParameterDirection.Output).Size = 200;
+                        cnx.Open();
+                        cm.ExecuteNonQuery();
+
+
+                        int intResultado = int.Parse(cm.Parameters["p_resultado"].Value.ToString());
+                        string strDescrError = cm.Parameters["p_errorMsn"].Value.ToString();
+                        if (intResultado != 1) throw new Exception(strDescrError);
+                        //int intNuevoIde = int.Parse(cm.Parameters["p_IdeNuevo"].Value.ToString());
+                        /*if (long.Parse(objEntregableOS["ide"]) == 0)
+                        {
+                            objEntregableOS["ide"] = intNuevoIde.ToString();
+                        }*/
+
+                        return intResultado;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                if (cnx.State == ConnectionState.Open) cnx.Close();
+            }
+        }
+
+        public int EliminarEntregable( string Connection, string Command, int IdEntregable)
+        {
+            string strCadena = GeneralConfig.LeerConnectionStrings(Connection);
+            string[] strRpta = { };
+            OracleConnection cnx = null;
+            try
+            {
+                using (cnx = new OracleConnection(strCadena))
+                {
+                    using (OracleCommand cm = new OracleCommand(Command, cnx))
+                    {
+                        cm.CommandType = CommandType.StoredProcedure;
+                        cm.BindByName = true;
+
+                        /////////////////////////////////////////
+                        //if (long.Parse(objEntregableOS["ide"]) != 0) cm.Parameters.Add("p_IDE_USUARIO", objEntregableOS["ide"]);
+                        cm.Parameters.Add("p_id_entregable", IdEntregable);                        
+                        
+                        cm.Parameters.Add("p_resultado", OracleDbType.Int32, ParameterDirection.Output).Size = 8;
+                        cm.Parameters.Add("p_errorMsn", OracleDbType.Varchar2, ParameterDirection.Output).Size = 200;
+                        cnx.Open();
+                        cm.ExecuteNonQuery();
+
+
+                        int intResultado = int.Parse(cm.Parameters["p_resultado"].Value.ToString());
+                        string strDescrError = cm.Parameters["p_errorMsn"].Value.ToString();
+                        if (intResultado != 1) throw new Exception(strDescrError);
+                        //int intNuevoIde = int.Parse(cm.Parameters["p_IdeNuevo"].Value.ToString());
+                        /*if (long.Parse(objEntregableOS["ide"]) == 0)
+                        {
+                            objEntregableOS["ide"] = intNuevoIde.ToString();
+                        }*/
+
+                        return intResultado;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            finally
+            {
+                if (cnx.State == ConnectionState.Open) cnx.Close();
+            }
+        }
+
     }
 
-
-
-
-
-
 }
+
+
+
+
+

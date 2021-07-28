@@ -1395,8 +1395,15 @@ $.extend( $.validator, {
 		},
 
 		// https://jqueryvalidation.org/date-method/
-		date: function( value, element ) {
-			return this.optional( element ) || !/Invalid|NaN/.test( new Date( value ).toString() );
+        date: function (value, element) {
+            //ARIOS
+            //return this.optional(element) || !/Invalid|NaN/.test(new Date(value).toString());
+            var comp = value.split('/');
+            var d = parseInt(comp[0], 10);
+            var m = parseInt(comp[1], 10);
+            var y = parseInt(comp[2], 10);
+            var date = new Date(y, m - 1, d);
+            return this.optional(element) || (date.getFullYear() == y && date.getMonth() + 1 == m && date.getDate() == d);
 		},
 
 		// https://jqueryvalidation.org/dateISO-method/
